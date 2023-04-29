@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tabela dos Piá</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.css">
+  </head>
+  <body>
+    <div class="container">
+      <h4>Tabela de Jogadores</h4>
+      <table id="tabela-jogadores" class="table table-striped table-bordered" data-filter="true">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Clube</th>
+            <th>Posição</th>
+            <th>Status</th>
+            <th>Pts_UR</th>
+            <th>Preço</th>
+            <th>Min_Val</th>
+            <th>Média</th>
+            <th>Prox_Jogo</th>
+            <th>Qts_escalaram</th>
+            <th>Fórmula</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for jogador in dados %}
+          <tr>
+            <td>{{ jogador['nome'] }}</td>
+            <td>{{ jogador['clube'] }}</td>
+            <td>{{ jogador['posicao'] }}</td>
+            <td>{{ jogador['status'] }}</td>
+            <td>{{ jogador['pontos_ultima_rodada'] }}</td>
+            <td>{{ jogador['preco'] }}</td>
+            <td>{{ jogador['minimo_para_valorizar'] }}</td>
+            <td>{{ jogador['media'] }}</td>
+            <td>{{ jogador['proximo_jogo'] }}</td>
+            <td>{{ jogador['qts_escalaram'] }}</td>
+            <td>{{ jogador['formula'] }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#tabela-jogadores').DataTable();
+      });
+    </script>
+  </body>
+</html>

@@ -412,8 +412,19 @@ df = pd.DataFrame(data_base)
 lista_scouts = ['ds','fc','gc','ca','cv','sg','de','dp','gs','pc','fs','pe','a','ft','fd','ff','g','i','pp','ps']
 # df.to_excel('cartola.xlsx', index=False)
 
-with open('arquivo.html', 'w', encoding='utf-8') as f:
-    f.write(df.to_html())
+base_de_dados = df[[
+                    'nome',
+                    'clube',
+                    'posicao',
+                    'status',
+                    'pontos_ultima_rodada',
+                    'preco',
+                    'minimo_para_valorizar',
+                    'media',
+                    'proximo_jogo',
+                    'qts_escalaram',
+                    'formula'
+                    ]].to_dict('records')
 
 
 
