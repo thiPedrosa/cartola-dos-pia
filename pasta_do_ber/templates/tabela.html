@@ -15,6 +15,7 @@
           <tr>
             <th>Nome</th>
             <th>Clube</th>
+            <th>Escudo</th>
             <th>Posição</th>
             <th>Status</th>
             <th>Pts_UR</th>
@@ -31,6 +32,7 @@
           <tr>
             <td>{{ jogador['nome'] }}</td>
             <td>{{ jogador['clube'] }}</td>
+            <td>{{ jogador['escudo'] }}</td>
             <td>{{ jogador['posicao'] }}</td>
             <td>{{ jogador['status'] }}</td>
             <td>{{ jogador['pontos_ultima_rodada'] }}</td>
@@ -51,6 +53,20 @@
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+    <script>
+      const table = document.getElementById("tabela-jogadores");
+      const column = 1; // índice da coluna desejada
+      
+      for (let i = 1; i < table.rows.length; i++) { // inicia em 1 para pular a primeira linha (cabeçalho da tabela)
+        const cell = table.rows[i].cells[column];
+      
+        if (cell.innerHTML === "Cuiabá") {
+          const image = document.createElement("img");
+          image.src = "C:\\Users\\Usuario\\Documents\\C4rT0La\\cartola-dos-pia\\pasta_do_ber\\escudos\\Cuiabá.png";
+          cell.appendChild(image);
+        }
+      }
+    </script>
     <script>
       $(document).ready(function() {
         $('#tabela-jogadores').DataTable();

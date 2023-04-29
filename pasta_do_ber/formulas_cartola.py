@@ -1,6 +1,8 @@
 import requests
 import pandas as pd
 import json
+import os
+from PIL import Image
 
 def rodada():
     url = 'https://api.cartolafc.globo.com/partidas'
@@ -45,13 +47,12 @@ response = requests.get(url)
 data = response.json()
 
 def clubes():
-
     clubes = data['clubes']
     lista_clubes = []
 
     for clube in clubes:
         infos_clube = clubes[f'{clube}']
-        nome_time = infos_clube['nome_fantasia']
+        nome_time = infos_clube['nome_fantasia'] 
         if nome_time == "Athlético-PR":
             nome_time = "Athletico-PR"
         objeto = {'clube_id':infos_clube['id'], 'clube_nome':nome_time}
@@ -291,7 +292,7 @@ def criar_data_base():
                 posicao_ = posicao['posicao_nome']
         for clube in lista_clubes:
             if jogador['clube_id'] == clube['clube_id']:
-                nome_clube = clube['clube_nome']
+                nome_clube = clube['clube_nome']  
         for status in lista_status:
             if jogador['status_id'] == status['status_id']:
                 status_ = status['status_nome']
@@ -426,5 +427,5 @@ base_de_dados = df[[
                     'formula'
                     ]].to_dict('records')
 
-
+print(base_de_dados)
 
