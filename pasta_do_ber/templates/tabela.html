@@ -15,7 +15,6 @@
           <tr>
             <th>Nome</th>
             <th>Clube</th>
-            <th>Escudo</th>
             <th>Posição</th>
             <th>Status</th>
             <th>Pts_UR</th>
@@ -31,8 +30,47 @@
           {% for jogador in dados %}
           <tr>
             <td>{{ jogador['nome'] }}</td>
-            <td>{{ jogador['clube'] }}</td>
-            <td>{{ jogador['escudo'] }}</td>
+            {% if jogador['clube'] == 'América-MG' %}
+              <td><img src="{{ url_for('static', filename='images/América-MG.png') }}" alt="América-MG"></td>
+            {% elif jogador['clube'] == 'Athletico-PR' %}
+              <td><img src="{{ url_for('static', filename='images/Athletico-PR.png') }}" alt="Athletico-PR"></td>
+            {% elif jogador['clube'] == 'Atlético-MG' %}
+              <td><img src="{{ url_for('static', filename='images/Atlético-MG.png') }}" alt="Atlético-MG"></td>
+            {% elif jogador['clube'] == 'Bahia' %}
+              <td><img src="{{ url_for('static', filename='images/Bahia.png') }}" alt="Bahia"></td>
+            {% elif jogador['clube'] == 'Botafogo' %}
+              <td><img src="{{ url_for('static', filename='images/Botafogo.png') }}" alt="Botafogo"></td>
+            {% elif jogador['clube'] == 'Bragantino' %}
+              <td><img src="{{ url_for('static', filename='images/Bragantino.png') }}" alt="Bragantino"></td>
+            {% elif jogador['clube'] == 'Corinthians' %}
+              <td><img src="{{ url_for('static', filename='images/Corinthians.png') }}" alt="Corinthians"></td>
+            {% elif jogador['clube'] == 'Coritiba' %}
+              <td><img src="{{ url_for('static', filename='images/Coritiba.png') }}" alt="Coritiba"></td>
+            {% elif jogador['clube'] == 'Cruzeiro' %}
+              <td><img src="{{ url_for('static', filename='images/Cruzeiro.png') }}" alt="Cruzeiro"></td>  
+            {% elif jogador['clube'] == 'Cuiabá' %}
+              <td><img src="{{ url_for('static', filename='images/Cuiabá.png') }}" alt="Cuiabá"></td> 
+            {% elif jogador['clube'] == 'Flamengo' %}
+              <td><img src="{{ url_for('static', filename='images/Flamengo.png') }}" alt="Flamengo"></td> 
+            {% elif jogador['clube'] == 'Fluminense' %}
+              <td><img src="{{ url_for('static', filename='images/Fluminense.png') }}" alt="Fluminense"></td> 
+            {% elif jogador['clube'] == 'Fortaleza' %}
+              <td><img src="{{ url_for('static', filename='images/Fortaleza.png') }}" alt="Fortaleza"></td>
+            {% elif jogador['clube'] == 'Goiás' %}
+              <td><img src="{{ url_for('static', filename='images/Goiás.png') }}" alt="Goiás"></td>
+            {% elif jogador['clube'] == 'Grêmio' %}
+              <td><img src="{{ url_for('static', filename='images/Grêmio.png') }}" alt="Grêmio"></td>
+            {% elif jogador['clube'] == 'Internacional' %}
+              <td><img src="{{ url_for('static', filename='images/Internacional.png') }}" alt="Internacional"></td>
+            {% elif jogador['clube'] == 'Palmeiras' %}
+              <td><img src="{{ url_for('static', filename='images/Palmeiras.png') }}" alt="Palmeiras"></td>
+            {% elif jogador['clube'] == 'Santos' %}
+              <td><img src="{{ url_for('static', filename='images/Santos.png') }}" alt="Santos"></td>
+            {% elif jogador['clube'] == 'São Paulo' %}
+              <td><img src="{{ url_for('static', filename='images/São Paulo.png') }}" alt="São Paulo"></td>
+            {% elif jogador['clube'] == 'Vasco' %}
+              <td><img src="{{ url_for('static', filename='images/Vasco.png') }}" alt="Vasco"></td>
+            {% endif %}
             <td>{{ jogador['posicao'] }}</td>
             <td>{{ jogador['status'] }}</td>
             <td>{{ jogador['pontos_ultima_rodada'] }}</td>
@@ -47,29 +85,15 @@
         </tbody>
       </table>
     </div>
-
+    <!-- Scripts que transformam a tabela -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
-    <script>
-      const table = document.getElementById("tabela-jogadores");
-      const column = 1; // índice da coluna desejada
-      
-      for (let i = 1; i < table.rows.length; i++) { // inicia em 1 para pular a primeira linha (cabeçalho da tabela)
-        const cell = table.rows[i].cells[column];
-      
-        if (cell.innerHTML === "Cuiabá") {
-          const image = document.createElement("img");
-          image.src = "C:\\Users\\Usuario\\Documents\\C4rT0La\\cartola-dos-pia\\pasta_do_ber\\escudos\\Cuiabá.png";
-          cell.appendChild(image);
-        }
-      }
-    </script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
       $(document).ready(function() {
-        $('#tabela-jogadores').DataTable();
+        var tabela = $('#tabela-jogadores').DataTable({
+        });
       });
     </script>
   </body>

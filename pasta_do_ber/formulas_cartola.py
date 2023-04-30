@@ -427,5 +427,5 @@ base_de_dados = df[[
                     'formula'
                     ]].to_dict('records')
 
-print(base_de_dados)
+
 
