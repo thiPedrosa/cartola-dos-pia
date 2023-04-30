@@ -409,7 +409,25 @@ def metricas_goleiro(data_base):
     return
 metricas_goleiro(data_base)
 
+def metricas_tecnico(data_base):
+    formula = 0
+    for jogador in data_base:
+        media_jogador = jogador['media']
+        time_adversario, fator_casa = definir_time_adversario(jogador['clube'])
+        if jogador['posicao'] == "Técnico":
+            for time in classificacao_gols_pro:
+                if jogador['clube'] == time['nome']:
+                    fator_ataque = time['classificacao']
+            for time in classificacao_gols_sofridos:
+                if jogador['clube'] == time['nome']:
+                    fator_defesa = time['classificacao']
+            formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
+            jogador['formula'] = "{:.2f}".format(formula)
+    return
+metricas_tecnico(data_base)
+
 df = pd.DataFrame(data_base)
+df = pd.DataFrame(proximas_partidas)
 
 base_de_dados = df[[
                     'nome',
@@ -425,5 +443,5 @@ base_de_dados = df[[
                     'formula'
                     ]].to_dict('records')
 
-
+proximo_jogo = df[['time_mandante','time_visitante']].to_dict('records')
 
