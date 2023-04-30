@@ -287,6 +287,7 @@ def criar_data_base():
     
     for jogador in lista_jogadores:
         qts_escalaram = 0
+        media = jogador['media']
         for posicao in lista_posicoes:
             if jogador['posicao_id'] == posicao['posicao_id']:
                 posicao_ = posicao['posicao_nome']
@@ -314,7 +315,7 @@ def criar_data_base():
             'variacao_preco':jogador['variacao_preco'],
             'minimo_para_valorizar':jogador['minimo_para_valorizar'],
             'numero_de_jogos':jogador['numero_de_jogos'],
-            'media':jogador['media'],
+            'media':media,
             'proximo_jogo':proximo_jogo,
             'qts_escalaram':qts_escalaram,
             'ds':jogador['ds'],
@@ -381,7 +382,7 @@ def metricas_atacante(data_base):
                 if time_adversario == time['nome']:
                     fator_defesa = time['classificacao']
             formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
-            jogador['formula'] = formula
+            jogador['formula'] = "{:.2f}".format(formula)
     return
 metricas_atacante(data_base)
 
@@ -404,14 +405,11 @@ def metricas_goleiro(data_base):
                 if time_adversario == time['nome']:
                     fator_ataque = time['classificacao']
             formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
-            jogador['formula'] = formula
+            jogador['formula'] = "{:.2f}".format(formula)
     return
 metricas_goleiro(data_base)
 
 df = pd.DataFrame(data_base)
-
-lista_scouts = ['ds','fc','gc','ca','cv','sg','de','dp','gs','pc','fs','pe','a','ft','fd','ff','g','i','pp','ps']
-# df.to_excel('cartola.xlsx', index=False)
 
 base_de_dados = df[[
                     'nome',
