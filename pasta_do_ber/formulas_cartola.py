@@ -427,7 +427,6 @@ def metricas_tecnico(data_base):
 metricas_tecnico(data_base)
 
 df = pd.DataFrame(data_base)
-df = pd.DataFrame(proximas_partidas)
 
 base_de_dados = df[[
                     'nome',
@@ -443,5 +442,5 @@ base_de_dados = df[[
                     'formula'
                     ]].to_dict('records')
 
-proximo_jogo = df[['time_mandante','time_visitante']].to_dict('records')
+# proximo_jogo = df[['time_mandante','time_visitante']].to_dict('records')
 
