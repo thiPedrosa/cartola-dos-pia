@@ -1,6 +1,24 @@
 import requests
 import pandas as pd
 import json
+import os
+from PIL import Image
+import csv
+import openpyxl
+
+minimo_para_valorizar = []
+
+workbook = openpyxl.load_workbook(r'C:\Users\Usuario\Documents\C4rT0La\cartola-dos-pia\pasta_do_ber\dados\minimo_para_valorizar.xlsx')
+sheet = workbook.active
+
+for row in sheet.iter_rows(min_row=2, min_col=1, max_col=2):
+    nome = str(row[0].value)
+    min_val = row[1].value
+    infos = {
+        'nome':nome,
+        'min_val':min_val
+    }
+    minimo_para_valorizar.append(infos)
 
 def rodada():
     url = 'https://api.cartolafc.globo.com/partidas'
@@ -45,13 +63,12 @@ response = requests.get(url)
 data = response.json()
 
 def clubes():
-
     clubes = data['clubes']
     lista_clubes = []
 
     for clube in clubes:
         infos_clube = clubes[f'{clube}']
-        nome_time = infos_clube['nome_fantasia']
+        nome_time = infos_clube['nome_fantasia'] 
         if nome_time == "Athlético-PR":
             nome_time = "Athletico-PR"
         objeto = {'clube_id':infos_clube['id'], 'clube_nome':nome_time}
@@ -93,7 +110,6 @@ def jogadores():
         preco = info['preco_num']
         pontos_ultima_rodada = info['pontos_num']
         variacao_preco = info['variacao_num']
-        minimo_para_valorizar = info['minimo_para_valorizar']
         numero_de_jogos = info['jogos_num']
         media = info['media_num']
         
@@ -189,7 +205,6 @@ def jogadores():
                 'preco':preco,
                 'pontos_ultima_rodada':pontos_ultima_rodada,
                 'variacao_preco':variacao_preco,
-                'minimo_para_valorizar':minimo_para_valorizar,
                 'numero_de_jogos':numero_de_jogos,
                 'media':media,
                 'ds':ds,
@@ -285,13 +300,15 @@ def criar_data_base():
     data_base = []
     
     for jogador in lista_jogadores:
+        global minimo_para_valorizar
         qts_escalaram = 0
+        media = jogador['media']
         for posicao in lista_posicoes:
             if jogador['posicao_id'] == posicao['posicao_id']:
                 posicao_ = posicao['posicao_nome']
         for clube in lista_clubes:
             if jogador['clube_id'] == clube['clube_id']:
-                nome_clube = clube['clube_nome']
+                nome_clube = clube['clube_nome']  
         for status in lista_status:
             if jogador['status_id'] == status['status_id']:
                 status_ = status['status_nome']
@@ -303,7 +320,10 @@ def criar_data_base():
         for escalacao in quantos_escalaram:
             if jogador['nome'] == escalacao['nome'] and nome_clube == escalacao['clube']:
                 qts_escalaram = escalacao['escalacoes']
-        
+        for pts_min_val in minimo_para_valorizar:
+            if jogador['nome'] == pts_min_val['nome']:
+                min_para_valorizar = pts_min_val['min_val']
+
         objeto = {'nome':jogador['nome'],
             'clube':nome_clube,
             'posicao':posicao_,
@@ -311,9 +331,9 @@ def criar_data_base():
             'preco':jogador['preco'],
             'pontos_ultima_rodada':jogador['pontos_ultima_rodada'],
             'variacao_preco':jogador['variacao_preco'],
-            'minimo_para_valorizar':jogador['minimo_para_valorizar'],
+            'minimo_para_valorizar':min_para_valorizar,
             'numero_de_jogos':jogador['numero_de_jogos'],
-            'media':jogador['media'],
+            'media':media,
             'proximo_jogo':proximo_jogo,
             'qts_escalaram':qts_escalaram,
             'ds':jogador['ds'],
@@ -380,7 +400,7 @@ def metricas_atacante(data_base):
                 if time_adversario == time['nome']:
                     fator_defesa = time['classificacao']
             formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
-            jogador['formula'] = formula
+            jogador['formula'] = "{:.2f}".format(formula)
     return
 metricas_atacante(data_base)
 
@@ -403,14 +423,28 @@ def metricas_goleiro(data_base):
                 if time_adversario == time['nome']:
                     fator_ataque = time['classificacao']
             formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
-            jogador['formula'] = formula
+            jogador['formula'] = "{:.2f}".format(formula)
     return
 metricas_goleiro(data_base)
 
-df = pd.DataFrame(data_base)
+def metricas_tecnico(data_base):
+    formula = 0
+    for jogador in data_base:
+        media_jogador = jogador['media']
+        time_adversario, fator_casa = definir_time_adversario(jogador['clube'])
+        if jogador['posicao'] == "Técnico":
+            for time in classificacao_gols_pro:
+                if jogador['clube'] == time['nome']:
+                    fator_ataque = time['classificacao']
+            for time in classificacao_gols_sofridos:
+                if jogador['clube'] == time['nome']:
+                    fator_defesa = time['classificacao']
+            formula = (60*media_jogador + 20*fator_ataque + 20*fator_defesa)/100 + fator_casa
+            jogador['formula'] = "{:.2f}".format(formula)
+    return
+metricas_tecnico(data_base)
 
-lista_scouts = ['ds','fc','gc','ca','cv','sg','de','dp','gs','pc','fs','pe','a','ft','fd','ff','g','i','pp','ps']
-# df.to_excel('cartola.xlsx', index=False)
+df = pd.DataFrame(data_base)
 
 base_de_dados = df[[
                     'nome',
@@ -426,5 +460,5 @@ base_de_dados = df[[
                     'formula'
                     ]].to_dict('records')
 
-
+# proximo_jogo = df[['time_mandante','time_visitante']].to_dict('records')
 

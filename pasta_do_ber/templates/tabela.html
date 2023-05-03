@@ -2,59 +2,146 @@
 <html>
   <head>
     <title>Tabela dos Piá</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/tabela.css') }}">
   </head>
   <body>
     <div class="container">
-      <h4>Tabela de Jogadores</h4>
+      <!-- <h4>Tabela de Jogadores</h4> -->
       <table id="tabela-jogadores" class="table table-striped table-bordered" data-filter="true">
         <thead>
           <tr>
-            <th>Nome</th>
-            <th>Clube</th>
-            <th>Posição</th>
-            <th>Status</th>
-            <th>Pts_UR</th>
-            <th>Preço</th>
-            <th>Min_Val</th>
-            <th>Média</th>
-            <th>Prox_Jogo</th>
-            <th>Qts_escalaram</th>
-            <th>Fórmula</th>
+            <th class="text-center">Nome</th>
+            <th class="text-center">Clube</th>
+            <th class="text-center">Clube</th>
+            <th class="text-center">Posição</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Pts_UR</th>
+            <th class="text-center">Preço</th>
+            <th class="text-center">Min_Val</th>
+            <th class="text-center">Média</th>
+            <th class="text-center">Prox_Jogo</th>
+            <th class="text-center">Qts_escalaram</th>
+            <th class="text-center">Fórmula</th>
           </tr>
         </thead>
         <tbody>
           {% for jogador in dados %}
           <tr>
-            <td>{{ jogador['nome'] }}</td>
-            <td>{{ jogador['clube'] }}</td>
-            <td>{{ jogador['posicao'] }}</td>
-            <td>{{ jogador['status'] }}</td>
-            <td>{{ jogador['pontos_ultima_rodada'] }}</td>
-            <td>{{ jogador['preco'] }}</td>
-            <td>{{ jogador['minimo_para_valorizar'] }}</td>
-            <td>{{ jogador['media'] }}</td>
-            <td>{{ jogador['proximo_jogo'] }}</td>
-            <td>{{ jogador['qts_escalaram'] }}</td>
-            <td>{{ jogador['formula'] }}</td>
+            <td class="text-center">{{ jogador['nome'] }}</td>
+            <td class="text-center">{{ jogador['clube'] }}</td>
+            {% if jogador['clube'] == 'América-MG' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/América-MG.png') }}" alt="América-MG"></td>
+            {% elif jogador['clube'] == 'Athletico-PR' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Athletico-PR.png') }}" alt="Athletico-PR"></td>
+            {% elif jogador['clube'] == 'Atlético-MG' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Atlético-MG.png') }}" alt="Atlético-MG"></td>
+            {% elif jogador['clube'] == 'Bahia' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Bahia.png') }}" alt="Bahia"></td>
+            {% elif jogador['clube'] == 'Botafogo' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Botafogo.png') }}" alt="Botafogo"></td>
+            {% elif jogador['clube'] == 'Bragantino' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Bragantino.png') }}" alt="Bragantino"></td>
+            {% elif jogador['clube'] == 'Corinthians' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Corinthians.png') }}" alt="Corinthians"></td>
+            {% elif jogador['clube'] == 'Coritiba' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Coritiba.png') }}" alt="Coritiba"></td>
+            {% elif jogador['clube'] == 'Cruzeiro' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Cruzeiro.png') }}" alt="Cruzeiro"></td>  
+            {% elif jogador['clube'] == 'Cuiabá' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Cuiabá.png') }}" alt="Cuiabá"></td> 
+            {% elif jogador['clube'] == 'Flamengo' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Flamengo.png') }}" alt="Flamengo"></td> 
+            {% elif jogador['clube'] == 'Fluminense' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Fluminense.png') }}" alt="Fluminense"></td> 
+            {% elif jogador['clube'] == 'Fortaleza' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Fortaleza.png') }}" alt="Fortaleza"></td>
+            {% elif jogador['clube'] == 'Goiás' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Goiás.png') }}" alt="Goiás"></td>
+            {% elif jogador['clube'] == 'Grêmio' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Grêmio.png') }}" alt="Grêmio"></td>
+            {% elif jogador['clube'] == 'Internacional' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Internacional.png') }}" alt="Internacional"></td>
+            {% elif jogador['clube'] == 'Palmeiras' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Palmeiras.png') }}" alt="Palmeiras"></td>
+            {% elif jogador['clube'] == 'Santos' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Santos.png') }}" alt="Santos"></td>
+            {% elif jogador['clube'] == 'São Paulo' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/São Paulo.png') }}" alt="São Paulo"></td>
+            {% elif jogador['clube'] == 'Vasco' %}
+              <td class="text-center"><img src="{{ url_for('static', filename='images/Vasco.png') }}" alt="Vasco"></td>
+            {% endif %}
+            <td class="text-center">{{ jogador['posicao'] }}</td>
+            <td class="text-center">{{ jogador['status'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['pontos_ultima_rodada'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['preco'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['minimo_para_valorizar'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['media'] }}</td>
+            <td class="text-center">{{ jogador['proximo_jogo'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['qts_escalaram'] }}</td>
+            <td class="text-center" data-type="number">{{ jogador['formula'] }}</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-
+    <!-- Scripts que transformam a tabela -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
     <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
     <script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.25/features/searchHighlight/dataTables.searchHighlight.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
-      $(document).ready(function() {
-        $('#tabela-jogadores').DataTable();
-      });
+    $(document).ready( function () {
+        $('#tabela-jogadores').DataTable({
+          initComplete: function () {
+            this.api()
+                .columns([3,4])
+                .every(function () {
+                $( select ).click( function(e) {
+                 e.stopPropagation();
+                });
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo( $(column.header()) )
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+ 
+                            column.search(val ? '^' + val + '$' : '', true, false).draw();
+                        });
+ 
+                    column
+                        .data()
+                        .unique()
+                        .sort()
+                        .each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                        });
+                });
+        },
+          // scrollY: '450px',
+          // scrollCollapse: true,
+          // paging: false,
+          // scrollX: true,
+          columnDefs: [
+            {
+                target: 1,
+                visible: false,
+                searchable: true,
+            },
+            {
+                target: 9,
+                visible: false,
+                searchable: false, 
+            },
+            {
+                target: 10,
+                visible: false,
+                searchable: false, 
+            },
+          ]
+    });
+    } );
     </script>
   </body>
 </html>
