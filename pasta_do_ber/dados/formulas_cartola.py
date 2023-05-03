@@ -3,6 +3,22 @@ import pandas as pd
 import json
 import os
 from PIL import Image
+import csv
+import openpyxl
+
+minimo_para_valorizar = []
+
+workbook = openpyxl.load_workbook(r'C:\Users\Usuario\Documents\C4rT0La\cartola-dos-pia\pasta_do_ber\dados\minimo_para_valorizar.xlsx')
+sheet = workbook.active
+
+for row in sheet.iter_rows(min_row=2, min_col=1, max_col=2):
+    nome = str(row[0].value)
+    min_val = row[1].value
+    infos = {
+        'nome':nome,
+        'min_val':min_val
+    }
+    minimo_para_valorizar.append(infos)
 
 def rodada():
     url = 'https://api.cartolafc.globo.com/partidas'
@@ -94,7 +110,6 @@ def jogadores():
         preco = info['preco_num']
         pontos_ultima_rodada = info['pontos_num']
         variacao_preco = info['variacao_num']
-        minimo_para_valorizar = info['minimo_para_valorizar']
         numero_de_jogos = info['jogos_num']
         media = info['media_num']
         
@@ -190,7 +205,6 @@ def jogadores():
                 'preco':preco,
                 'pontos_ultima_rodada':pontos_ultima_rodada,
                 'variacao_preco':variacao_preco,
-                'minimo_para_valorizar':minimo_para_valorizar,
                 'numero_de_jogos':numero_de_jogos,
                 'media':media,
                 'ds':ds,
@@ -286,6 +300,7 @@ def criar_data_base():
     data_base = []
     
     for jogador in lista_jogadores:
+        global minimo_para_valorizar
         qts_escalaram = 0
         media = jogador['media']
         for posicao in lista_posicoes:
@@ -305,7 +320,10 @@ def criar_data_base():
         for escalacao in quantos_escalaram:
             if jogador['nome'] == escalacao['nome'] and nome_clube == escalacao['clube']:
                 qts_escalaram = escalacao['escalacoes']
-        
+        for pts_min_val in minimo_para_valorizar:
+            if jogador['nome'] == pts_min_val['nome']:
+                min_para_valorizar = pts_min_val['min_val']
+
         objeto = {'nome':jogador['nome'],
             'clube':nome_clube,
             'posicao':posicao_,
@@ -313,7 +331,7 @@ def criar_data_base():
             'preco':jogador['preco'],
             'pontos_ultima_rodada':jogador['pontos_ultima_rodada'],
             'variacao_preco':jogador['variacao_preco'],
-            'minimo_para_valorizar':jogador['minimo_para_valorizar'],
+            'minimo_para_valorizar':min_para_valorizar,
             'numero_de_jogos':jogador['numero_de_jogos'],
             'media':media,
             'proximo_jogo':proximo_jogo,

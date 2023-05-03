@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-from formulas_cartola import base_de_dados
+from dados.formulas_cartola import base_de_dados
 
 app_flask = Flask(__name__)
 
